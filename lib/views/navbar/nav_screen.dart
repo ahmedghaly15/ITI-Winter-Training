@@ -12,6 +12,7 @@ class NavScreen extends StatefulWidget {
 }
 
 class _NavScreenState extends State<NavScreen> {
+  // Screens of Bottom Nav Bar
   final List<Map<String, Widget>> pages = [
     {
       'page': const HomePage(),
@@ -26,8 +27,10 @@ class _NavScreenState extends State<NavScreen> {
       'title': const Text("Profile Page"),
     },
   ];
+
   int _selectedPageIndex = 0;
 
+  // Moving among bottom nav screens
   void _tap(int indx) {
     setState(() {
       _selectedPageIndex = indx;
@@ -43,6 +46,8 @@ class _NavScreenState extends State<NavScreen> {
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: pages[_selectedPageIndex]['page'],
+
+      // bottom nav bar content
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

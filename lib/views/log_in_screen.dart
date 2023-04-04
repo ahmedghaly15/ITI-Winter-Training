@@ -17,6 +17,7 @@ enum AuthMode { signUp, login }
 class _LoginScreenState extends State<LoginScreen> {
   AuthMode authMode = AuthMode.login;
 
+  // For switching between Auth Mode
   void _switchAuthMode() {
     if (authMode == AuthMode.login) {
       setState(() {
@@ -29,12 +30,20 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // for controlling user name TextField
   final usernameController = TextEditingController();
+  // for controlling password TextField
   final passwordController = TextEditingController();
+  // for controlling confirm password TextField
   final confirmPassController = TextEditingController();
+
+  // for controlling password TextField visibility
   bool isPassVisible = true;
+
   String email = "";
   String password = "";
+
+  // A global key to control the form
   final GlobalKey<FormState> _formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -128,6 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               null,
                             ),
                           const SizedBox(height: 30),
+
+                          // Sign in / Sign up Button
                           ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -140,6 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         );
                                       });
 
+                                  // if the user wants to sign in
                                   try {
                                     await FirebaseAuth.instance
                                         .signInWithEmailAndPassword(
@@ -148,10 +160,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     // final prefs =
                                     //     await SharedPreferences.getInstance();
                                     // await prefs.setString('email', email);
+
+                                    // Navigating to NavScreen
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => NavScreen()),
+                                          builder: (context) =>
+                                              const NavScreen()),
                                     );
                                   } on FirebaseAuthException catch (e) {
                                     Navigator.pop(context);
@@ -160,14 +175,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     } else if (e.code == 'wrong-password') {
                                       wrongPass();
                                     }
-                                    SnackBar snackBar = SnackBar(
+                                    SnackBar snackBar = const SnackBar(
                                       content:
                                           Text("password and email not valid"),
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }
-                                } else if (authMode == AuthMode.signUp) {
+                                }
+
+                                // if the user wants to sign up
+                                else if (authMode == AuthMode.signUp) {
                                   try {
                                     await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
@@ -175,10 +193,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                             password:
                                                 confirmPassController.text);
 
+                                    // Navigating to NavScreen
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => NavScreen()),
+                                          builder: (context) =>
+                                              const NavScreen()),
                                     );
                                   } on FirebaseAuthException catch (e) {
                                     if (e.code == 'weak-password') {
@@ -229,6 +249,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text(authMode == AuthMode.login
                                   ? "Don't have an account?"
                                   : "Already have an account?"),
+
+                              // Changing the Auth Mode button
                               TextButton(
                                 onPressed: _switchAuthMode,
                                 style: ButtonStyle(
@@ -267,6 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // showing a dialog if the user enters a wrong Email
   void wrongEmail() {
     showDialog(
         context: context,
@@ -277,6 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
+  // showing a dialog with the error in case there's
   void showMyDialog(String error) {
     showDialog(
         context: context,
@@ -287,6 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
+  // showing a dialog if the user enters a wrong password
   void wrongPass() {
     showDialog(
         context: context,
@@ -297,6 +322,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
+  // A function for building a TextFormField
   TextFormField buildTextField(
     TextEditingController? controller,
     String label,

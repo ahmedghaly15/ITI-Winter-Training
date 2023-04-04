@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    // Getting the posts when the screen is in use
     getPosts();
   }
 
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
               itemCount: posts.length,
               itemBuilder: (BuildContext ctx, int index) => InkWell(
                 onTap: () {
+                  // Navigating to PostDetaols Screen
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -56,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                     elevation: 13,
                     shadowColor: Colors.black,
                     child: ListTile(
+                      // Numbering Posts
                       title: Text(
                         "Post ${index + 1}",
                         style: const TextStyle(

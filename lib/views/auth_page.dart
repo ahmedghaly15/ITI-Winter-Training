@@ -8,13 +8,17 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Checking if the user signed in before
     return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            // in case he signed in before
             return const NavScreen();
-          } else {
+          }
+          // in case he didn't
+          else {
             return const LoginScreen();
           }
         },

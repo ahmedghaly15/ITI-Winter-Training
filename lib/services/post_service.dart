@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:my_new_app/models/posts_model.dart';
 
 class PostService {
+  // Getting Data Using Dio from an API
   Future<List<PostsModel>> getPost() async {
     List<PostsModel> postsList = [];
     try {

@@ -17,6 +17,7 @@ class _EntryScreenState extends State<EntryScreen> {
     super.initState();
   }
 
+  // check if the user passed LoginScreen or not
   nextPage() async {
     final prefs = await SharedPreferences.getInstance();
     String? value = prefs.getString('email');
